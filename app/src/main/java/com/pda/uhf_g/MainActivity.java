@@ -148,6 +148,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
                         "\n"+"Read Power:"+sharedUtil.getPower()+
                         "\n"+"Write Power:"+sharedUtil.getPower(),Toast.LENGTH_LONG).show();
 
+                if(mUhfrManager.getHardware().equals("1.1.01")){
+                    type=0;
+                }
+
             }else {
                 //5101 30db
                 Reader.READER_ERR err1 = mUhfrManager.setPower(30, 30);//set uhf module power
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
         }else {
             Toast.makeText(this,getString(R.string.module_init_fail), Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
