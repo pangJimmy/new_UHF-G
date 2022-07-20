@@ -88,7 +88,7 @@ public class ReadWriteTag extends BaseFragment {
 
     private final int UNLOCK = 0 ;//
     private final int LOCK = 1 ;//
-    private final int PERM_LOCK = 0 ;//
+    private final int PERM_LOCK = 2 ;//
 
 
     Reader.Lock_Obj lock_obj = null;//lock bank
