@@ -55,8 +55,8 @@ public class AboutFragment extends BaseFragment {
             String strVer = this.getResources().getString(R.string.firmware);
             String strSoft = this.getResources().getString(R.string.soft_version);
             String strDate = this.getResources().getString(R.string.version_date);
-            strSoft = String.format(strSoft, "2.2.18");
-            strDate = String.format(strDate, "2022-07-08");
+            strSoft = String.format(strSoft, "2.2.17");
+            strDate = String.format(strDate, "2022-07-05");
             if (version != null && version.length() > 0) {
                 version = String.format(strVer, version);
                 textViewFirmware.setText(version);

@@ -28,14 +28,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.handheld.uhfr.UHFRManager;
@@ -83,10 +81,8 @@ public class InventoryFragment extends BaseFragment {
     @BindView(R.id.button_clean)
     Button btnClean ;
 
-//    @BindView(R.id.checkbox_multi_tag)
-//    CheckBox checkBoxMultiTag ;
-    @BindView(R.id.spinner_session_inventory)
-    Spinner spinnerSession ;
+    @BindView(R.id.checkbox_multi_tag)
+    CheckBox checkBoxMultiTag ;
     @BindView(R.id.checkbox_tid)
     CheckBox checkBoxTid ;
     @BindView(R.id.checkbox_loop)
@@ -110,7 +106,6 @@ public class InventoryFragment extends BaseFragment {
     private boolean[] isChecked = new boolean[]{false, false, false};//
     private SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     private KeyReceiver keyReceiver;
-    private int session = 0 ;
 
     SharedUtil sharedUtil ;
     private boolean isMulti = false;// multi mode flag
@@ -199,12 +194,6 @@ public class InventoryFragment extends BaseFragment {
         if (mainActivity.mUhfrManager != null) {
             mainActivity.mUhfrManager.setCancleInventoryFilter();
         }
-
-        if (mainActivity.mUhfrManager != null) {
-            session = mainActivity.mUhfrManager.getGen2session() ;
-        }
-        spinnerSession.setSelection(session);
-        Log.e("pang", "session = " + session);
         //
         registerKeyCodeReceiver();
         //getModuleInfo() ;
@@ -232,6 +221,7 @@ public class InventoryFragment extends BaseFragment {
             LogUtil.e("invenrotyThread is running");
             List<Reader.TAGINFO> listTag = null;
             //6C
+            //
             if (isMulti) {
                 listTag = mainActivity.mUhfrManager.tagInventoryRealTime();
             }else{
@@ -245,7 +235,7 @@ public class InventoryFragment extends BaseFragment {
             if (listTag == null) {
                 LogUtil.e("listTag = null");
                 //
-                if(isMulti){
+                if(checkBoxMultiTag.isChecked()){
                     mainActivity.mUhfrManager.asyncStopReading();
                     mainActivity.mUhfrManager.asyncStartReading();
                 }
@@ -356,8 +346,7 @@ public class InventoryFragment extends BaseFragment {
     private void setEnabled(boolean isEnable) {
         checkBoxLoop.setEnabled(isEnable);
         checkBoxLoop.setEnabled(isEnable);
-//        checkBoxMultiTag.setEnabled(isEnable);
-        spinnerSession.setEnabled(isEnable);
+        checkBoxMultiTag.setEnabled(isEnable);
         checkBoxTid.setEnabled(isEnable);
         btnExcel.setEnabled(isEnable);
 
@@ -378,11 +367,11 @@ public class InventoryFragment extends BaseFragment {
         }
         showToast(R.string.start_inventory);
         //
-//        if(mainActivity.mUhfrManager.getGen2session()!=3){
-//
-//            mainActivity.mUhfrManager.setGen2session(isMulti);
-//
-//        }
+        if(mainActivity.mUhfrManager.getGen2session()!=3){
+
+            mainActivity.mUhfrManager.setGen2session(isMulti);
+
+        }
         if (isMulti) {
             mainActivity.mUhfrManager.asyncStartReading() ;
 
@@ -405,7 +394,7 @@ public class InventoryFragment extends BaseFragment {
     private void stopInventory()  {
         if (mainActivity.isConnectUHF) {
             if(isReader){
-                if (isMulti) {
+                if (checkBoxMultiTag.isChecked()) {
                     mainActivity.mUhfrManager.asyncStopReading();
                 }
                 handler.removeCallbacks(invenrotyThread);
@@ -535,35 +524,10 @@ public class InventoryFragment extends BaseFragment {
     private void initView() {
         epcListViewAdapter = new EPCListViewAdapter(mainActivity, tagInfoList);
         listViewEPC.setAdapter(epcListViewAdapter);
-//        checkBoxMultiTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                isMulti = isChecked ;
-//            }
-//        });
-
-        spinnerSession.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        checkBoxMultiTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mainActivity.mUhfrManager != null) {
-                    boolean flag = mainActivity.mUhfrManager.setGen2session(position);
-                    if (flag) {
-                        if (position == 0 || (position == 1 && mainActivity.type == 0)) {
-                            isMulti = false ;
-                        }else{
-                            isMulti = true ;
-                        }
-                    }
-                }else{
-                    showToast(R.string.communication_timeout);
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isMulti = isChecked ;
             }
         });
     }

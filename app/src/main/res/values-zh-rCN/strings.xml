@@ -146,10 +146,10 @@
 
     <!--session-->
     <string-array name="session_arrays">
-        <item>S0-单标签</item>
-        <item>S1-多标签</item>
+        <item>S0</item>
+        <item>S1</item>
         <item>S2-多标签</item>
-        <item>S3-多标签</item>
+        <item>S3</item>
     </string-array>
 
     <!--盘存方式AB面-->
