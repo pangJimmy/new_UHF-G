@@ -222,6 +222,7 @@ public class InventoryFragment extends BaseFragment {
             List<Reader.TAGINFO> listTag = null;
             //6C
             //
+
             if (isMulti) {
                 listTag = mainActivity.mUhfrManager.tagInventoryRealTime();
             }else{
@@ -286,6 +287,7 @@ public class InventoryFragment extends BaseFragment {
 
 
     public Map<String, TagInfo> pooled6cData(Reader.TAGINFO info) {
+
         String epcAndTid = Tools.Bytes2HexString(info.EpcId, info.EpcId.length)
                 ;
         if (tagInfoMap.containsKey(epcAndTid)) {
@@ -366,6 +368,7 @@ public class InventoryFragment extends BaseFragment {
 //            soundTask();
         }
         showToast(R.string.start_inventory);
+//        mainActivity.mUhfrManager.setEMBEDEDATA(1, 0, 4, Tools.HexString2Bytes("00000000"));
         //
         if(mainActivity.mUhfrManager.getGen2session()!=3){
 

@@ -232,7 +232,6 @@ public class ReadWriteTag extends BaseFragment {
         LogUtil.e("membank = " + membank + ", startAddr = " + startAddr  + ",len =  " + len + ", access = "  +  accessPassword);
 
         if (checkBoxFilter.isChecked()) {
-            //fbank: 1 epc,2 tid ,3 user, 一般使用EPC过滤即选择对应的EPC号的标签进行读写
             readData = mainActivity.mUhfrManager.getTagDataByFilter(membank, startAddr, len, accessPassword, (short) 1000, epc, 1, 2, true);
         }else{
             er = mainActivity.mUhfrManager.getTagData(membank, startAddr, len, readData, accessPassword, (short) 1000);
@@ -261,23 +260,19 @@ public class ReadWriteTag extends BaseFragment {
         Reader.READER_ERR er ;
         LogUtil.e("membank = " + membank + ", startAddr = " + startAddr  + ", access = "  +  accessPassword);
         if (checkBoxFilter.isChecked()){
-            //fbank: 1 epc,2 tid ,3 user, 一般使用EPC过滤即选择对应的EPC号的标签进行读写
             er = mainActivity.mUhfrManager.writeTagDataByFilter((char)membank,startAddr,writeDataBytes,writeDataBytes.length,accessPassword,(short)1000,epc,1,2,true);
         }else{
             er = mainActivity.mUhfrManager.writeTagData((char)membank,startAddr,writeDataBytes,writeDataBytes.length,accessPassword,(short)1000);
         }
         if(er== Reader.READER_ERR.MT_OK_ERR ){
-            //写入成功
             showToast(R.string.write_success);
         }else{
-            //写入失败
             showToast(R.string.write_fail);
         }
 
     }
 
     /**
-     * 修改EPC
      */
     @OnClick(R.id.button_modify)
     void modifyEPC() {
@@ -292,35 +287,29 @@ public class ReadWriteTag extends BaseFragment {
             showToast(R.string.access_password_not_null);
             return;
         }
-        //检验访问密码是否为4字节十六进制数据
         if (!matchHex(accessStr) || accessStr.length() != 8) {
             showToast(R.string.please_input_right_access_password);
             return ;
         }
-        //检验新epc是否为4的整数倍长度十六进制数据
         if (!matchHex(newEPC) || newEPC.length()% 4 != 0) {
             showToast(R.string.please_input_right_epc);
             return ;
         }
         accessPassword = Tools.HexString2Bytes(accessStr);
 
-        //EPC区：CRC+PC+EPC号,写入新的EPC需要修改PC+EPC，所以起始地址为1,SDK内部已经计算好PC
 //        String pcStr = ComputedPc.getPc(ComputedPc.getEPCLength(editTextNewEPC));
 //        String writeData = pcStr + newEPC ;
         byte[] writeDataBytes = Tools.HexString2Bytes(newEPC );
         byte[] epc = Tools.HexString2Bytes(epcStr);
         Reader.READER_ERR er ;
         if (checkBoxFilter.isChecked()){
-            //fbank: 1 epc,2 tid ,3 user, 一般使用EPC过滤即选择对应的EPC号的标签进行读写, 起始地址为1
             er = mainActivity.mUhfrManager.writeTagEPCByFilter(writeDataBytes,accessPassword,(short)1000,epc,1,2,true);
         }else{
             er = mainActivity.mUhfrManager.writeTagEPC(writeDataBytes,accessPassword,(short)1000);
         }
         if(er== Reader.READER_ERR.MT_OK_ERR ){
-            //写入成功
             showToast(R.string.modify_success);
         }else{
-            //写入失败
             showToast(R.string.modify_fail);
         }
 
@@ -328,7 +317,6 @@ public class ReadWriteTag extends BaseFragment {
     }
 
     /****
-     * 锁定操作
      */
     @OnClick(R.id.button_lock)
     void lock() {
@@ -337,12 +325,10 @@ public class ReadWriteTag extends BaseFragment {
             return ;
         }
         String accessStr = editTextAccessPassword.getText().toString().trim() ;
-        //访问密码不能为空
         if (accessStr == null || accessStr.length() == 0) {
             showToast(R.string.access_password_not_null);
             return;
         }
-        //检验访问密码是否为4字节十六进制数据
         if (!matchHex(accessStr) || accessStr.length() != 8) {
             showToast(R.string.please_input_right_access_password);
             return;
@@ -353,7 +339,6 @@ public class ReadWriteTag extends BaseFragment {
         Reader.READER_ERR er;
 
         if (checkBoxFilter.isChecked())
-            //fbank: 1 epc,2 tid ,3 user, 一般使用EPC过滤即选择对应的EPC号的标签进行读写
             er  = mainActivity.mUhfrManager.lockTagByFilter(lock_obj,lock_type,accessPassword,(short)1000,epc,1,2,true);
         else
             er  = mainActivity.mUhfrManager.lockTag(lock_obj,lock_type,accessPassword,(short)1000);
@@ -426,7 +411,6 @@ public class ReadWriteTag extends BaseFragment {
 
 
     /***
-     * 销毁标签
      */
     @OnClick(R.id.button_kill)
     void kill() {
@@ -435,12 +419,10 @@ public class ReadWriteTag extends BaseFragment {
             return ;
         }
         String killStr = editTextKillPassword.getText().toString().trim() ;
-        //访问密码不能为空
         if (killStr == null || killStr.length() == 0) {
             showToast(R.string.access_password_not_null);
             return;
         }
-        //检验密码是否为4字节十六进制数据
         if (!matchHex(killStr) || killStr.length() != 8) {
             showToast(R.string.please_input_right_access_password);
         }
@@ -464,7 +446,6 @@ public class ReadWriteTag extends BaseFragment {
     }
 
     /****
-     * 清空读数据窗口
      */
     @OnClick(R.id.button_clean)
     void clean() {
@@ -481,25 +462,21 @@ public class ReadWriteTag extends BaseFragment {
         String startAddrStr = editTextStartAddr.getText().toString().trim() ;
         String lenStr = editTextLen.getText().toString().trim();
         String accessStr = editTextAccessPassword.getText().toString().trim() ;
-        //起始地址不能为空
         if (startAddrStr == null || startAddrStr.length() == 0) {
             showToast(R.string.start_address_not_null);
             return false;
         }
-        //访问不能为空
         if (accessStr == null || accessStr.length() == 0) {
             showToast(R.string.access_password_not_null);
             return false;
         }
         if(!isWrite){
-            //长度不能为空
             if (lenStr == null || lenStr.length() == 0) {
                 showToast(R.string.len_not_null);
                 return false;
             }
             len = Integer.valueOf(lenStr);
         }
-        //检验访问密码是否为4字节十六进制数据
         if (!matchHex(accessStr) || accessStr.length() != 8) {
             showToast(R.string.please_input_right_access_password);
             return false;
@@ -510,7 +487,6 @@ public class ReadWriteTag extends BaseFragment {
     }
 
     /**
-     * 校验输入的数据是否为十六进制
      * @param data
      * @return
      */

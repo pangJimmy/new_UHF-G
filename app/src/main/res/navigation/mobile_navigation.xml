@@ -10,6 +10,13 @@
         android:name="com.pda.uhf_g.ui.fragment.InventoryFragment"
         android:label="@string/invenroty"
         tools:layout="@layout/fragment_inventory" />
+
+
+    <fragment
+        android:id="@+id/nav_inventory_led"
+        android:name="com.pda.uhf_g.ui.fragment.InventoryLedFragment"
+        android:label="@string/led_inventory"
+        tools:layout="@layout/fragment_inventory" />
     <fragment
         android:id="@+id/nav_read_write_tag"
         android:name="com.pda.uhf_g.ui.fragment.ReadWriteTag"

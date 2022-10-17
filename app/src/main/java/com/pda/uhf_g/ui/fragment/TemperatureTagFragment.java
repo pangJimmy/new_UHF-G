@@ -1,5 +1,9 @@
 package com.pda.uhf_g.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +15,7 @@ import cn.pda.serialport.Tools;
 import android.os.Handler;
 import android.os.strictmode.DiskReadViolation;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +30,7 @@ import com.pda.uhf_g.R;
 import com.pda.uhf_g.adapter.TempTagListViewAdapter;
 import com.pda.uhf_g.entity.TagInfo;
 import com.pda.uhf_g.ui.base.BaseFragment;
+import com.pda.uhf_g.util.LogUtil;
 import com.pda.uhf_g.util.UtilSound;
 
 import java.util.ArrayList;
@@ -58,6 +64,8 @@ public class TemperatureTagFragment extends BaseFragment {
     private int tagType = 0;
     private int index = 1 ;
 
+    private KeyReceiver keyReceiver;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +83,7 @@ public class TemperatureTagFragment extends BaseFragment {
         isRead = false ;
         btnRead.setText(R.string.read);
         mHandler.removeCallbacks(readThread);
+        mainActivity.unregisterReceiver(keyReceiver);
         super.onStop();
     }
 
@@ -84,6 +93,12 @@ public class TemperatureTagFragment extends BaseFragment {
         if (mainActivity.mUhfrManager != null) {
             mainActivity.mUhfrManager.setCancleInventoryFilter();
         }
+        registerKeyCodeReceiver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -177,7 +192,49 @@ public class TemperatureTagFragment extends BaseFragment {
     public void onClean() {
         listTag.clear();
         tagMap.clear();
+        index = 1 ;
         adapter.notifyDataSetChanged();
+    }
+
+
+    private void registerKeyCodeReceiver() {
+        keyReceiver = new KeyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.rfid.FUN_KEY");
+        filter.addAction("android.intent.action.FUN_KEY");
+        mainActivity.registerReceiver(keyReceiver, filter);
+    }
+
+    private class KeyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int keyCode = intent.getIntExtra("keyCode", 0);
+            LogUtil.e("keyCode = " + keyCode);
+            if (keyCode == 0) {
+                keyCode = intent.getIntExtra("keycode", 0);
+            }
+            boolean keyDown = intent.getBooleanExtra("keydown", false);
+            if (keyDown) {
+//                ToastUtils.showText("KeyReceiver:keyCode = down" + keyCode);
+            } else {
+//                ToastUtils.showText("KeyReceiver:keyCode = up" + keyCode);
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_F1:
+                        break;
+                    case KeyEvent.KEYCODE_F2:
+                        break;
+                    case KeyEvent.KEYCODE_F5:
+                        break;
+                    case KeyEvent.KEYCODE_F3://C510x
+                    case KeyEvent.KEYCODE_F4://6100
+                    case KeyEvent.KEYCODE_F7://H3100
+//                        invenroty();
+                        onReadTag() ;
+                        break;
+                }
+            }
+        }
+
     }
 
 }

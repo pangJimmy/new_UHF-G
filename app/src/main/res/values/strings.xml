@@ -14,7 +14,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="invenroty">invenroty</string>
+    <string name="invenroty">Inventory</string>
     <string name="frequency_settings">Frequency Settings</string>
     <string name="settings">Settings</string>
 
@@ -58,6 +58,9 @@
     <string name="write">Write</string>
     <string name="new_epc">New EPC(hex):</string>
     <string name="please_input_hex_string">please input hex EPC data</string>
+
+    <string name="select_epc">select epc:</string>
+    <string name="led_inventory">Led inventory</string>
 
     <string name="lock_tag">Lock tag</string>
     <string name="lock_data">lock data:</string>

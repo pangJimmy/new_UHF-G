@@ -130,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
         }
     }
 
+
+    SharedUtil sharedUtil ;
     /**
      * 初始化uhf模块
      */
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
         mUhfrManager = UHFRManager.getInstance();// Init Uhf module
         if(mUhfrManager!=null){
             //5106和6106 /6107和6108 支持33db
-            SharedUtil sharedUtil = new SharedUtil(this);
+            sharedUtil = new SharedUtil(this);
             Reader.READER_ERR err = mUhfrManager.setPower(sharedUtil.getPower(), sharedUtil.getPower());//set uhf module power
 
             if(err== Reader.READER_ERR.MT_OK_ERR){
@@ -148,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
                         "\n"+"Read Power:"+sharedUtil.getPower()+
                         "\n"+"Write Power:"+sharedUtil.getPower(),Toast.LENGTH_LONG).show();
 
+                setParam() ;
                 if(mUhfrManager.getHardware().equals("1.1.01")){
                     type=0;
                 }
@@ -161,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
                     Toast.makeText(getApplicationContext(), "FreRegion:" + Reader.Region_Conf.valueOf(mSharedPreferences.getInt("freRegion", 1)) +
                             "\n" + "Read Power:" + 30 +
                             "\n" + "Write Power:" + 30, Toast.LENGTH_LONG).show();
+                    setParam() ;
                 }else {
                     Toast.makeText(this,getString(R.string.module_init_fail), Toast.LENGTH_SHORT).show();
                 }
@@ -173,6 +177,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
 
     }
 
+
+    private void setParam() {
+        //session
+        mUhfrManager.setGen2session(sharedUtil.getSession());
+        //taget
+        mUhfrManager.setTarget(sharedUtil.getTarget());
+        //q value
+        mUhfrManager.setQvaule(sharedUtil.getQvalue());
+    }
 
 
 
@@ -216,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
                 break;
             case R.id.nav_about:
                 navController.navigate(R.id.nav_about);
+                break;
+            case R.id.nav_inventory_led:
+                navController.navigate(R.id.nav_inventory_led);
                 break;
 
         }

@@ -94,6 +94,9 @@
     <string name="temp">温度</string>
     <string name="inventory_settings">查询参数设置</string>
 
+    <string name="select_epc">单个点亮epc号:</string>
+    <string name="led_inventory">Led标签盘点</string>
+
     <string name="query">查询</string>
     <string name="q_value">Q值:</string>
     <string name="inventory_type">盘存方式:</string>
