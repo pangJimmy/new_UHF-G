@@ -10,7 +10,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 19
-        versionName "2.2.24"
+        versionName "2.2.25"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -51,7 +51,7 @@ dependencies {
     implementation files('libs\\DeviceAPIver20150204.jar')
     implementation files('libs\\logutil-1.5.1.1.jar')
     //implementation files('libs\\UHF67_v1.0.15.jar')
-    implementation files('libs\\UHF67_v1.0.16.jar')
+    implementation files('libs\\UHF67_v1.0.17.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
