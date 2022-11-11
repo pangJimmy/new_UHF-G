@@ -46,9 +46,19 @@ public class BaseFragment extends Fragment {
 
     public void showToast(String msg) {
 //        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show(); ;
-        if (toast == null) toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        else toast.setText(msg);
-        toast.show();
+        try {
+            if (toast == null){
+                toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+
+            }else{
+                toast.cancel();
+                toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        } catch (Exception e) {
+
+        }
+
     }
 
     /***
@@ -56,9 +66,20 @@ public class BaseFragment extends Fragment {
      * @param resID
      */
     public void showToast(int resID) {
-        if (toast == null) toast = Toast.makeText(getActivity(), resID, Toast.LENGTH_SHORT);
-        else toast.setText(resID);
-        toast.show();
+
+        try {
+            if (toast == null){
+                toast = Toast.makeText(getActivity(), resID, Toast.LENGTH_SHORT);
+            }
+            else {
+                toast.cancel();
+                toast = Toast.makeText(getActivity(), resID, Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        } catch (Exception e) {
+
+        }
+
     }
 
 

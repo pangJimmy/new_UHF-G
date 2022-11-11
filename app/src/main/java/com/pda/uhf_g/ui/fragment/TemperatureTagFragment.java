@@ -150,6 +150,7 @@ public class TemperatureTagFragment extends BaseFragment {
                 }
                 adapter.notifyDataSetChanged();
             }
+
             mHandler.post(readThread);
         }
     } ;
@@ -162,7 +163,9 @@ public class TemperatureTagFragment extends BaseFragment {
             int count = tag.count ;
             count++ ;
             tag.count = count ;
+            tag.Temperature = info.Temperature ;
             tagMap.put(epc, tag);
+
         }else{
             info.index = index ;
             info.count = 1 ;
