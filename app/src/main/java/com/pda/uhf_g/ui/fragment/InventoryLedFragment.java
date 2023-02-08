@@ -249,6 +249,10 @@ public class InventoryLedFragment extends BaseFragment {
     public void clear() {
         initPane();
         mainActivity.listEPC.clear();
+        if (!tvLedString.getText().toString().trim().equals("")) {
+            tvLedString.setText("");
+            mainActivity.mUhfrManager.setCancleInventoryFilter() ;
+        }
     }
 
     /***盘存EPC***/
