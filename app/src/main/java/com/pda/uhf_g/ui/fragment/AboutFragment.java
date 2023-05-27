@@ -13,10 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.handheld.uhfr.UHFRManager;
+import com.pda.uhf_g.BuildConfig;
 import com.pda.uhf_g.MainActivity;
 import com.pda.uhf_g.R;
 import com.pda.uhf_g.ui.base.BaseFragment;
 
+import java.text.DateFormat;
 
 public class AboutFragment extends BaseFragment {
 
@@ -55,8 +57,8 @@ public class AboutFragment extends BaseFragment {
             String strVer = this.getResources().getString(R.string.firmware);
             String strSoft = this.getResources().getString(R.string.soft_version);
             String strDate = this.getResources().getString(R.string.version_date);
-            strSoft = String.format(strSoft, "2.2.29");
-            strDate = String.format(strDate, "2023-02-08");
+            strSoft = String.format(strSoft, BuildConfig.VERSION_NAME);
+            strDate = String.format(strDate, BuildConfig.BUILD_TIME);
             if (version != null && version.length() > 0) {
                 version = String.format(strVer, version);
                 textViewFirmware.setText(version);
