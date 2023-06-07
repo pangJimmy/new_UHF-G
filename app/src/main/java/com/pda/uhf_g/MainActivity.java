@@ -185,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
         mUhfrManager.setTarget(sharedUtil.getTarget());
         //q value
         mUhfrManager.setQvaule(sharedUtil.getQvalue());
+        //FastId
+        mUhfrManager.setFastID(sharedUtil.getFastId());
     }
 
 

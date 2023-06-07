@@ -197,6 +197,11 @@ public class InventoryFragment extends BaseFragment {
         //
         registerKeyCodeReceiver();
         //getModuleInfo() ;
+        // FastId功能开启时，不允许开启附加TID数据功能，两者有冲突
+        if (sharedUtil.getFastId()) {
+            checkBoxTid.setChecked(false);
+        }
+        checkBoxTid.setEnabled(!sharedUtil.getFastId());
     }
 
     @Override
@@ -349,7 +354,10 @@ public class InventoryFragment extends BaseFragment {
         checkBoxLoop.setEnabled(isEnable);
         checkBoxLoop.setEnabled(isEnable);
         checkBoxMultiTag.setEnabled(isEnable);
-        checkBoxTid.setEnabled(isEnable);
+        if (!sharedUtil.getFastId()) {
+            // 开启FastId时，不允许开启附加TID数据
+            checkBoxTid.setEnabled(isEnable);
+        }
         btnExcel.setEnabled(isEnable);
 
     }

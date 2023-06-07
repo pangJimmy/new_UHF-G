@@ -72,4 +72,14 @@ public class SharedUtil {
 
         return mSharedPreferences.getInt("target",0);
     }
+
+    public void saveFastId(boolean openFlag) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit() ;
+        editor.putBoolean("FastId", openFlag);
+        editor.apply();
+    }
+
+    public boolean getFastId() {
+        return mSharedPreferences.getBoolean("FastId", false);
+    }
 }

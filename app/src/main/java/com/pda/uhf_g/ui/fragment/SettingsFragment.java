@@ -316,7 +316,7 @@ public class SettingsFragment extends BaseFragment {
         querySession();
         queryQvalue();
         queryInventory();
-
+        checkBoxFastid.setChecked(sharedUtil.getFastId());
     }
 
     private void initView() {
@@ -426,6 +426,7 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mainActivity.mUhfrManager.setFastID(b);
+                sharedUtil.saveFastId(b);
             }
         });
 
