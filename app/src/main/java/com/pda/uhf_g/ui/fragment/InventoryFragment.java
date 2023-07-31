@@ -293,8 +293,10 @@ public class InventoryFragment extends BaseFragment {
 
     public Map<String, TagInfo> pooled6cData(Reader.TAGINFO info) {
 
-        String epcAndTid = Tools.Bytes2HexString(info.EpcId, info.EpcId.length)
-                ;
+        String epcAndTid = Tools.Bytes2HexString(info.EpcId, info.EpcId.length);
+        if(checkBoxTid.isChecked()&&info.EmbededData!=null){
+            epcAndTid = Tools.Bytes2HexString(info.EmbededData,info.EmbededData.length);
+        }
         if (tagInfoMap.containsKey(epcAndTid)) {
             TagInfo tagInfo = tagInfoMap.get(epcAndTid);
             Long count = tagInfo.getCount();
