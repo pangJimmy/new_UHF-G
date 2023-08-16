@@ -226,8 +226,6 @@ public class InventoryFragment extends BaseFragment {
             LogUtil.e("invenrotyThread is running");
             List<Reader.TAGINFO> listTag = null;
             //6C
-            //
-
             if (isMulti) {
                 listTag = mainActivity.mUhfrManager.tagInventoryRealTime();
             }else{
@@ -294,8 +292,12 @@ public class InventoryFragment extends BaseFragment {
     public Map<String, TagInfo> pooled6cData(Reader.TAGINFO info) {
 
         String epcAndTid = Tools.Bytes2HexString(info.EpcId, info.EpcId.length);
-        if(checkBoxTid.isChecked()&&info.EmbededData!=null){
-            epcAndTid = Tools.Bytes2HexString(info.EmbededData,info.EmbededData.length);
+        if(checkBoxTid.isChecked()){
+            if(info.EmbededData!=null) {
+                epcAndTid = Tools.Bytes2HexString(info.EmbededData, info.EmbededData.length);
+            }else{
+                return tagInfoMap;
+            }
         }
         if (tagInfoMap.containsKey(epcAndTid)) {
             TagInfo tagInfo = tagInfoMap.get(epcAndTid);
