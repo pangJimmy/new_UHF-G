@@ -23,9 +23,11 @@ import me.weyye.hipermission.PermissionItem;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -292,10 +294,16 @@ public class InventoryFragment extends BaseFragment {
     public Map<String, TagInfo> pooled6cData(Reader.TAGINFO info) {
 
         String epcAndTid = Tools.Bytes2HexString(info.EpcId, info.EpcId.length);
+        Log.i("Inv", "[pooled6cData] tag epc: " + epcAndTid);
         if(checkBoxTid.isChecked()){
             if(info.EmbededData!=null) {
                 epcAndTid = Tools.Bytes2HexString(info.EmbededData, info.EmbededData.length);
+                Log.i("Inv", "[pooled6cData] tag tid: " + epcAndTid);
+                if (TextUtils.isEmpty(epcAndTid)) {
+                    return tagInfoMap;
+                }
             }else{
+                Log.i("Inv", "[pooled6cData] drop null tid tag");
                 return tagInfoMap;
             }
         }
@@ -380,7 +388,6 @@ public class InventoryFragment extends BaseFragment {
 //            soundTask();
         }
         showToast(R.string.start_inventory);
-//        mainActivity.mUhfrManager.setEMBEDEDATA(1, 0, 4, Tools.HexString2Bytes("00000000"));
         //
         if(mainActivity.mUhfrManager.getGen2session()!=3){
 
@@ -539,11 +546,20 @@ public class InventoryFragment extends BaseFragment {
     private void initView() {
         epcListViewAdapter = new EPCListViewAdapter(mainActivity, tagInfoList);
         listViewEPC.setAdapter(epcListViewAdapter);
-        checkBoxMultiTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isMulti = isChecked ;
+        checkBoxMultiTag.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            isMulti = isChecked ;
+            if (isChecked) {
+                // 多标签模式下无法使用TID
+                checkBoxTid.setChecked(false);
             }
+        });
+        checkBoxTid.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // 多标签模式下无法使用TID
+                checkBoxMultiTag.setChecked(false);
+            }
+            // 清空列表，解决先不带TID盘存，后带TID盘存，导致的显示混乱问题
+            clear();
         });
     }
 

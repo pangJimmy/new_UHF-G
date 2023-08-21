@@ -41,12 +41,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
     //
     private ScanUtil scanUtil;
     public UHFRManager mUhfrManager;//uhf
-    private SharedPreferences mSharedPreferences;
+    public SharedPreferences mSharedPreferences;
 
     public List<String> listEPC = new ArrayList<>();//epc数据
     public static int type=-1;
     private TextView tvDeviceInfo ;
-    private NavController navController ;
+    public NavController navController ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +187,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView. O
         mUhfrManager.setQvaule(sharedUtil.getQvalue());
         //FastId
         mUhfrManager.setFastID(sharedUtil.getFastId());
+        //Rr Advance settings
+        boolean b = mSharedPreferences.getBoolean("show_rr_advance_settings", false);
+        if (b) {
+            int jgTime = mSharedPreferences.getInt("jg_time", 6);
+            int dwell = mSharedPreferences.getInt("dwell", 2);
+            int i = mUhfrManager.setRrJgDwell(jgTime, dwell);
+        }
     }
 
 

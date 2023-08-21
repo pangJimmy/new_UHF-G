@@ -125,6 +125,14 @@
     <string name="temp_tag">Temperature tag</string>
     <string name="stop_read">Stop read</string>
 
+    <string name="timeInterval">Interval:</string>
+    <string name="dwelltime">DwellTime:</string>
+    <string name="strrb1">Performance preferred</string>
+    <string name="strrb2">Balanced</string>
+    <string name="strrb3">Energy saving</string>
+    <string name="strrb4">Custom</string>
+    <string name="getstr">Get</string>
+    <string name="setstr">Set</string>
 
     <string-array name="temp_manufacturer">
         <item>Yuehe tag</item>
@@ -136,6 +144,7 @@
         <item>China1_920_925</item>
         <item>FCC_902_928</item>
         <item>EU_865_867</item>
+        <item>ALL_840_960</item>
     </string-array>
 
     <!---->

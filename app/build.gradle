@@ -9,8 +9,8 @@ android {
         applicationId "com.pda.uhf_g"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 34
-        versionName "3.4"
+        versionCode 36
+        versionName "3.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -59,7 +59,7 @@ dependencies {
     implementation files('libs\\App_Demo_API.jar')
     implementation files('libs\\DeviceAPIver20150204.jar')
     implementation files('libs\\logutil-1.5.1.1.jar')
-    implementation files('libs\\UHF67_v3.5.jar')
+    implementation files('libs\\UHF67_v3.6.jar')
     //implementation files('libs\\UHF67_v1.0.15.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

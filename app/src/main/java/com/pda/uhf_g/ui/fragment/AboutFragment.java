@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ public class AboutFragment extends BaseFragment {
     TextView textViewSoft;
     private UHFRManager uhfrManager;
     private MainActivity mainActivity;
+    private long lastClickTime = SystemClock.elapsedRealtime();
+    private int firmwareClickCount = 0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,17 @@ public class AboutFragment extends BaseFragment {
             }
             textViewSoft.setText(strSoft);
             textViewDate.setText(strDate);
+            textViewFirmware.setOnClickListener(v -> {
+                long nowTime = SystemClock.elapsedRealtime();
+                if (nowTime - lastClickTime < 500) {
+                    firmwareClickCount++;
+                    if (firmwareClickCount == 7) {
+                        mainActivity.mSharedPreferences.edit().putBoolean("show_rr_advance_settings", true).apply();
+                        mainActivity.navController.navigate(R.id.nav_setting);
+                    }
+                }
+                lastClickTime = nowTime;
+            });
         }
     }
 

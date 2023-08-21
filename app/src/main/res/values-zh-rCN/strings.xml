@@ -119,6 +119,15 @@
     <string name="temp_tag">温度标签</string>
     <string name="stop_read">停止读取</string>
 
+    <string name="timeInterval">间隔时间:</string>
+    <string name="dwelltime">驻留时间:</string>
+    <string name="strrb1">性能优先</string>
+    <string name="strrb2">平衡配置</string>
+    <string name="strrb3">续航优先</string>
+    <string name="strrb4">自定义</string>
+    <string name="getstr">读取</string>
+    <string name="setstr">设置</string>
+
     <string-array name="temp_manufacturer">
         <item>悦和标签</item>
         <item>宜链标签</item>
@@ -128,6 +137,7 @@
         <item>中国1_920_925</item>
         <item>北美_902_928</item>
         <item>欧洲_865_867</item>
+        <item>全频段_840_960</item>
     </string-array>
 
 
